@@ -1,0 +1,9 @@
+{
+  "name": "ais-digital-challenge",
+  "version": "0.1",
+  "description": "technical challenge presents by ais-digital",
+  "main": "app.js",
+  "repository": "https://github.com/gabrieldds/ais-digital-challenge.git",
+  "author": "Gabriel Dias de Santana <gabrields46@gmail.com>",
+  "license": "MIT"
+}
