@@ -1,7 +1,7 @@
-const { DataTypes, Model } = require('sequelize')
+const { Model } = require('sequelize')
 
 class Movie extends Model {
-  static init (sequelize) {
+  static init (sequelize, DataTypes) {
     super.init({
       imdb_id: DataTypes.STRING,
       adult: DataTypes.BOOLEAN,
@@ -46,6 +46,10 @@ class Movie extends Model {
       modelName: 'Movie'
     })
   }
+}
+
+Movie.associate = (models) => {
+  models.movie.hasMany(models.translations, { foreignKey: 'id' })
 }
 
 module.exports = Movie

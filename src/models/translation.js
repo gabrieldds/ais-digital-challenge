@@ -1,6 +1,6 @@
 const { DataTypes, Model } = require('sequelize')
 
-class Translations extends Model {
+class Translation extends Model {
   static init (sequelize) {
     super.init({
       iso_3166_1: {
@@ -20,12 +20,19 @@ class Translations extends Model {
       },
       homepage: {
         type: DataTypes.STRING
+      },
+      movieId: {
+        type: DataTypes.INTEGER
       }
     }, {
       sequelize,
-      modelName: 'Movie'
+      modelName: 'Translation'
     })
   }
 }
 
-module.exports = Translations
+Translation.associate = (models) => {
+  models.translation.belongsTo(models.User, { targetKey: 'movieId' })
+}
+
+module.exports = Translation
