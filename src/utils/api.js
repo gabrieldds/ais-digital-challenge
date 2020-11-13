@@ -6,6 +6,7 @@ class Api {
     this.api = axios.create({
       baseURL
     })
+    this.get = this.get.bind(this)
   }
 
   async get (path) {

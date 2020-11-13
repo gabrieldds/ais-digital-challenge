@@ -3,11 +3,14 @@ class MovieService {
     this.movieModel = movieModel
     this.translationsModel = translationsModel
     this.api = api
+
+    this.getFromUrl = this.getFromUrl.bind(this)
+    this.getById = this.getById.bind(this)
   }
 
   async getFromUrl (id) {
-    const pathMovie = `/movie/${id}`
-    const pathTranslation = `/movie/${id}/translations`
+    const pathMovie = `/${id}`
+    const pathTranslation = `/${id}/translations`
 
     const movieData = await this.api.get(pathMovie)
     const { translations } = await this.api.get(pathTranslation)
@@ -26,26 +29,29 @@ class MovieService {
 
   async seed (id) {
     const { movie, translations } = await this.getFromUrl(id)
-    const movieCreated = await this.movieModel.create(movie)
+    console.log(movie)
+    const movieCreated = await this.movieModel.create(movie, { silent: true })
 
     translations.forEach(async translation => {
       translation.movieId = id
-      await this.translationsModel.create(translation)
+      await this.translationsModel.create(translation, { silent: true })
     })
 
     return movieCreated
   }
 
   async getById (id) {
-    const movie = await this.movieModel.findByPk(id)
-    const translations = await this.translationsModel.findAll({
+    const result = await this.translationsModel.findAll({
       where: {
         movieId: id
+      },
+      include: {
+        model: this.movieModel,
+        required: true
       }
     })
 
-    movie.translations = translations
-    return movie
+    return result
   }
 }
 

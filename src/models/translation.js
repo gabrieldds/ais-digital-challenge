@@ -1,38 +1,35 @@
-const { DataTypes, Model } = require('sequelize')
+const TranslationModel = (sequelize, DataTypes) => {
+  const Translation = sequelize.define('Translation', {
+    iso_3166_1: {
+      type: DataTypes.STRING
+    },
+    iso_639_1: {
+      type: DataTypes.STRING
+    },
+    name: {
+      type: DataTypes.STRING
+    },
+    title: {
+      type: DataTypes.STRING
+    },
+    overview: {
+      type: DataTypes.TEXT
+    },
+    homepage: {
+      type: DataTypes.STRING
+    },
+    movieId: {
+      type: DataTypes.INTEGER
+    }
+  }, {
+    timestamps: false
+  })
 
-class Translation extends Model {
-  static init (sequelize) {
-    super.init({
-      iso_3166_1: {
-        type: DataTypes.STRING
-      },
-      iso_639_1: {
-        type: DataTypes.STRING
-      },
-      name: {
-        type: DataTypes.STRING
-      },
-      title: {
-        type: DataTypes.STRING
-      },
-      overview: {
-        type: DataTypes.TEXT
-      },
-      homepage: {
-        type: DataTypes.STRING
-      },
-      movieId: {
-        type: DataTypes.INTEGER
-      }
-    }, {
-      sequelize,
-      modelName: 'Translation'
-    })
+  Translation.associate = (models) => {
+    Translation.belongsTo(models.Movie, { foreignKey: 'movieId' })
   }
+
+  return Translation
 }
 
-Translation.associate = (models) => {
-  models.translation.belongsTo(models.User, { targetKey: 'movieId' })
-}
-
-module.exports = Translation
+module.exports = TranslationModel

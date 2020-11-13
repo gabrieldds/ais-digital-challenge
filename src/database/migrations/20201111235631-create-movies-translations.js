@@ -26,6 +26,9 @@ module.exports = {
       },
       homepage: {
         type: DataTypes.STRING
+      },
+      movieId: {
+        type: DataTypes.INTEGER
       }
     })
   },
